@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>뉴카인드 제일라 | 7SNS 툴 (유튜브 제작)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Pretendard', -apple-system, 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+    background: linear-gradient(180deg, #fdf1ec 0%, #f8e1dc 40%, #f5d5d0 100%);
+    color: #5c3e38;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  .hero {
+    text-align: center;
+    padding: 72px 28px 60px;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(12px);
+    border-radius: 32px;
+    margin-bottom: 36px;
+    box-shadow: 0 20px 60px rgba(180,120,110,0.18);
+    border: 1px solid rgba(255,255,255,0.7);
+  }
+  .hero .tag {
+    display: inline-block;
+    background: #c98b80; color: white;
+    font-size: 13px; font-weight: 700;
+    padding: 6px 16px; border-radius: 20px;
+    letter-spacing: 2px; margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: 38px; color: #6b4b45;
+    font-weight: 900; letter-spacing: -0.5px;
+    margin-bottom: 14px; line-height: 1.3;
+  }
+  .hero .sub { font-size: 17px; color: #8a6058; font-weight: 500; }
+  .hero .author {
+    margin-top: 28px; padding-top: 20px;
+    border-top: 1px dashed #e8c8c0;
+    font-size: 14px; color: #9b7770; letter-spacing: 3px;
+  }
+
+  .toc {
+    background: rgba(255,255,255,0.6);
+    border-radius: 24px; padding: 28px 32px;
+    margin-bottom: 40px;
+    border: 1px solid rgba(255,255,255,0.7);
+    box-shadow: 0 10px 30px rgba(180,120,110,0.1);
+  }
+  .toc h3 {
+    font-size: 18px; color: #8a6058;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toc h3::before { content: "📖"; }
+  .toc ol { list-style: none; counter-reset: toc; }
+  .toc ol li {
+    counter-increment: toc;
+    padding: 8px 0; padding-left: 32px; position: relative;
+    font-size: 15px; color: #6b4b45;
+  }
+  .toc ol li::before {
+    content: counter(toc, decimal-leading-zero);
+    position: absolute; left: 0; top: 8px;
+    font-weight: 800; color: #c98b80;
+    font-family: 'Georgia', serif;
+  }
+  .toc ol li a { color: inherit; text-decoration: none; }
+  .toc ol li a:hover { color: #c4564a; }
+
+  section {
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(10px);
+    border-radius: 28px;
+    padding: 44px 40px;
+    margin-bottom: 32px;
+    border: 1px solid rgba(255,255,255,0.7);
+    box-shadow: 0 15px 40px rgba(180,120,110,0.12);
+    scroll-margin-top: 20px;
+  }
+  section .chapter {
+    display: inline-block; font-size: 12px; font-weight: 800;
+    color: #c98b80; letter-spacing: 3px; margin-bottom: 8px;
+  }
+  section h2 {
+    font-size: 28px; color: #6b4b45;
+    font-weight: 900; margin-bottom: 8px; letter-spacing: -0.5px;
+  }
+  section .section-sub {
+    font-size: 15px; color: #8a6058;
+    padding-bottom: 24px; margin-bottom: 24px;
+    border-bottom: 2px solid #e8c8c0;
+  }
+  section p {
+    font-size: 15.5px; color: #5c3e38;
+    margin-bottom: 18px; line-height: 2;
+  }
+  section p:last-child { margin-bottom: 0; }
+  section p b { color: #c4564a; }
+  section h3 {
+    font-size: 20px; color: #6b4b45;
+    margin-top: 28px; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  section h3::before { content: "✔"; color: #c98b80; font-weight: 800; }
+
+  .info-box {
+    background: rgba(255, 243, 235, 0.75);
+    border-left: 5px solid #c98b80;
+    padding: 20px 26px; border-radius: 14px; margin: 16px 0;
+  }
+  .info-box p { margin-bottom: 10px; line-height: 1.85; }
+  .info-box p:last-child { margin-bottom: 0; }
+  .warn-box {
+    background: rgba(255, 243, 205, 0.7);
+    border-left: 5px solid #e8c76a;
+    padding: 20px 26px; border-radius: 14px; margin: 16px 0;
+  }
+  .warn-box .title {
+    font-weight: 800; color: #8a6e3a; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .warn-box .title::before { content: "⚠️"; }
+  .warn-box p { color: #8a6e3a; margin: 0; font-size: 14.5px; line-height: 1.85; }
+
+  .prompt-box {
+    background: #2d2d2d; color: #f0e5e0;
+    padding: 20px 24px; border-radius: 14px;
+    font-family: 'D2Coding', 'Courier New', monospace;
+    font-size: 13.5px; line-height: 1.8;
+    margin: 14px 0; white-space: pre-wrap; word-break: break-word;
+    border-left: 5px solid #c98b80;
+  }
+
+  .guide-img {
+    width: 100%; border-radius: 16px;
+    margin: 16px 0 8px;
+    box-shadow: 0 10px 30px rgba(180,120,110,0.15);
+    border: 1px solid rgba(255,255,255,0.8);
+    background: white; display: block;
+  }
+
+  .step {
+    background: rgba(255, 243, 235, 0.6);
+    border-radius: 16px;
+    padding: 20px 26px;
+    margin-bottom: 14px;
+    border-left: 5px solid #c98b80;
+  }
+  .step .step-num {
+    display: inline-block;
+    background: #c98b80;
+    color: white;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-weight: 800;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+  .step .step-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: #6b4b45;
+    margin-bottom: 8px;
+  }
+  .step .step-desc { font-size: 14.5px; color: #5c3e38; margin-left: 38px; line-height: 1.9; }
+  ul.check { list-style: none; margin: 10px 0; }
+  ul.check li {
+    padding: 8px 0 8px 28px;
+    position: relative;
+    font-size: 15px;
+    color: #5c3e38;
+  }
+  ul.check li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    color: #c98b80;
+    font-weight: 800;
+  }
+  ul.check li b { color: #c4564a; }
+  .guide-img-wrap {
+    position: relative;
+    display: block;
+    margin: 16px 0 8px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(180,120,110,0.15);
+    border: 1px solid rgba(255,255,255,0.8);
+  }
+  .guide-img-wrap img {
+    width: 100%;
+    display: block;
+    border-radius: 0;
+    margin: 0;
+    box-shadow: none;
+    border: none;
+  }
+  .guide-img-wrap::before,
+  .guide-img-wrap::after {
+    content: "뉴카인드 제일라";
+    position: absolute;
+    font-size: 32px;
+    font-weight: 800;
+    color: rgba(180, 100, 90, 0.18);
+    letter-spacing: 3px;
+    white-space: nowrap;
+    transform: rotate(-22deg);
+    pointer-events: none;
+    font-family: 'Pretendard', -apple-system, 'Malgun Gothic', sans-serif;
+  }
+  .guide-img-wrap::before { top: 18%; left: 15%; }
+  .guide-img-wrap::after { top: 62%; left: 45%; }
+
+
+  footer {
+    text-align: center; padding: 50px 20px 20px;
+    color: #9b7770; font-size: 13px;
+  }
+  footer .logo {
+    font-size: 16px; font-weight: 800;
+    color: #c98b80; letter-spacing: 4px; margin-bottom: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 20px 14px 60px; }
+    .hero { padding: 50px 20px 40px; }
+    .hero h1 { font-size: 28px; }
+    section { padding: 32px 22px; }
+    section h2 { font-size: 22px; }
+    .toc { padding: 22px 24px; }
+  }
+
+  /* 사이드바 */
+  .zl-hamburger {
+    position: fixed;
+    top: 20px; left: 20px;
+    z-index: 1000;
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.8);
+    box-shadow: 0 10px 30px rgba(180,120,110,0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    gap: 5px;
+    transition: all 0.3s;
+  }
+  .zl-hamburger:hover { background: rgba(255,255,255,1); }
+  .zl-hamburger span {
+    display: block;
+    width: 22px; height: 2.5px;
+    background: #6b4b45;
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .zl-hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .zl-hamburger.open span:nth-child(2) { opacity: 0; }
+  .zl-hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  .zl-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(107, 75, 69, 0.35);
+    backdrop-filter: blur(4px);
+    z-index: 998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .zl-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .zl-sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 320px;
+    max-width: 85vw;
+    height: 100vh;
+    background: linear-gradient(180deg, #fdf1ec 0%, #f8e1dc 100%);
+    box-shadow: 10px 0 40px rgba(180,120,110,0.25);
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    padding: 88px 28px 40px;
+  }
+  .zl-sidebar.open { transform: translateX(0); }
+  .zl-sidebar .zl-tag {
+    display: inline-block;
+    background: #c98b80; color: white;
+    font-size: 11px; font-weight: 700;
+    padding: 5px 14px; border-radius: 16px;
+    letter-spacing: 2px; margin-bottom: 14px;
+  }
+  .zl-sidebar h2 {
+    font-size: 24px;
+    color: #6b4b45;
+    font-weight: 900;
+    margin-bottom: 8px;
+    line-height: 1.3;
+    border: none; padding: 0;
+  }
+  .zl-sidebar .zl-sub {
+    font-size: 13px;
+    color: #8a6058;
+    padding-bottom: 22px;
+    border-bottom: 2px dashed #e8c8c0;
+    margin-bottom: 20px;
+  }
+  .zl-sidebar .zl-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: #c98b80;
+    letter-spacing: 3px;
+    margin: 8px 0 12px 4px;
+  }
+  .zl-nav { list-style: none; margin: 0; padding: 0; }
+  .zl-nav li { margin-bottom: 8px; }
+  .zl-nav a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 14px;
+    text-decoration: none;
+    color: #5c3e38;
+    transition: all 0.25s;
+    border: 1px solid transparent;
+  }
+  .zl-nav a:hover {
+    background: rgba(255,255,255,0.95);
+    transform: translateX(4px);
+    border-color: rgba(201, 139, 128, 0.3);
+  }
+  .zl-nav a.active {
+    background: rgba(201, 139, 128, 0.15);
+    border-color: #c98b80;
+  }
+  .zl-nav .zl-emoji { font-size: 22px; }
+  .zl-nav .zl-text {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .zl-nav .zl-arrow {
+    color: #c98b80;
+    font-size: 16px;
+    transition: transform 0.25s;
+  }
+  .zl-nav a:hover .zl-arrow { transform: translateX(3px); }
+  .zl-sidebar .zl-footer {
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px dashed #e8c8c0;
+    font-size: 12px;
+    color: #9b7770;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+
+
+  /* 락 오버레이 */
+  .zl-lock {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg, #fdf1ec 0%, #f8e1dc 50%, #f5d5d0 100%);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: 'Pretendard', -apple-system, 'Malgun Gothic', sans-serif;
+  }
+  .zl-lock.hidden { display: none; }
+  .zl-lock-card {
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    padding: 56px 44px 44px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 25px 60px rgba(180,120,110,0.25);
+    border: 1px solid rgba(255,255,255,0.8);
+    text-align: center;
+  }
+  .zl-lock-emoji { font-size: 54px; margin-bottom: 16px; }
+  .zl-lock-tag {
+    display: inline-block;
+    background: #c98b80; color: white;
+    font-size: 11px; font-weight: 700;
+    padding: 5px 14px; border-radius: 16px;
+    letter-spacing: 2px; margin-bottom: 18px;
+  }
+  .zl-lock h1 {
+    font-size: 24px;
+    color: #6b4b45;
+    font-weight: 900;
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+  .zl-lock p {
+    font-size: 14px;
+    color: #8a6058;
+    margin-bottom: 26px;
+    line-height: 1.7;
+  }
+  .zl-lock input {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 16px;
+    border: 2px solid #e8c8c0;
+    border-radius: 14px;
+    background: white;
+    color: #5c3e38;
+    text-align: center;
+    letter-spacing: 2px;
+    font-family: inherit;
+    font-weight: 700;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 14px;
+  }
+  .zl-lock input:focus { border-color: #c98b80; }
+  .zl-lock input::placeholder { color: #c4b0a8; font-weight: 500; letter-spacing: 1px; }
+  .zl-lock button {
+    width: 100%;
+    padding: 16px;
+    font-size: 15px;
+    font-weight: 800;
+    color: white;
+    background: #c98b80;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+  .zl-lock button:hover { background: #b87970; transform: translateY(-1px); }
+  .zl-lock .zl-err {
+    color: #c4564a;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    min-height: 18px;
+  }
+  .zl-lock .zl-footer-text {
+    margin-top: 22px;
+    font-size: 12px;
+    color: #9b7770;
+    letter-spacing: 2px;
+  }
+
+</style>
+</head>
+<body><div class="zl-lock" id="zlLock">
+  <div class="zl-lock-card">
+    <div class="zl-lock-emoji">🔐</div>
+    <div class="zl-lock-tag">NEWKIND ZHEILA</div>
+    <h1>자료집 접속</h1>
+    <p>
+      이 자료집은 회원 전용이에요 🌸<br>
+      제일라님께 받으신 <b>접속 코드</b>를 입력해주세요.
+    </p>
+    <input type="password" id="zlLockInput" placeholder="접속 코드 입력" autocomplete="off">
+    <div class="zl-err" id="zlLockErr"></div>
+    <button type="button" id="zlLockBtn">입장하기</button>
+    <div class="zl-footer-text">MADE BY 제일라 · 💗</div>
+  </div>
+</div>
+
+<button class="zl-hamburger" id="zlHamburger" aria-label="메뉴 열기">
+  <span></span><span></span><span></span>
+</button>
+<div class="zl-overlay" id="zlOverlay"></div>
+<aside class="zl-sidebar" id="zlSidebar">
+  <div class="zl-tag">NEWKIND ZHEILA</div>
+  <h2>자료집 모음</h2>
+  <div class="zl-sub">뉴카인드 제일라의 모든 가이드 🌸</div>
+
+  <div class="zl-label">GUIDES</div>
+  <ul class="zl-nav">
+    <li><a href="index.html" data-page="index"><span class="zl-emoji">🏠</span><span class="zl-text">홈 · 자료집 모음</span><span class="zl-arrow">→</span></a></li>
+    <li><a href="blog_guide.html" data-page="blog"><span class="zl-emoji">✍️</span><span class="zl-text">블로그 글 작성하는 방법</span><span class="zl-arrow">→</span></a></li>
+    <li><a href="submit_guide.html" data-page="submit"><span class="zl-emoji">📤</span><span class="zl-text">포스팅 제출 & 주의사항</span><span class="zl-arrow">→</span></a></li>
+    <li><a href="clip_guide.html" data-page="clip"><span class="zl-emoji">🎬</span><span class="zl-text">클립 일감 신청 방법</span><span class="zl-arrow">→</span></a></li>
+    <li><a href="shop_guide.html" data-page="shop"><span class="zl-emoji">🛍</span><span class="zl-text">쇼핑수익 이용 방법</span><span class="zl-arrow">→</span></a></li>
+    <li><a href="cpa_guide.html" data-page="cpa"><span class="zl-emoji">💵</span><span class="zl-text">CPA 수익</span><span class="zl-arrow">→</span></a></li>
+    <li><a href="extra_guide.html" data-page="extra"><span class="zl-emoji">💰</span><span class="zl-text">부수익 (리뷰/체험단)</span><span class="zl-arrow">→</span></a></li>
+    <li><a href="blog_agency.html" data-page="agency"><span class="zl-emoji">🤝</span><span class="zl-text">블로그 대행 & 서포터즈</span><span class="zl-arrow">→</span></a></li>
+    <li><a href="saju_auto.html" data-page="sajuauto"><span class="zl-emoji">🔮</span><span class="zl-text">자동화 사주 수익</span><span class="zl-arrow">→</span></a></li>
+    <li><a href="sns_tool.html" data-page="tool"><span class="zl-emoji">🛠</span><span class="zl-text">3SNS 툴 사이트</span><span class="zl-arrow">→</span></a></li>
+    <li><a href="sns_sites.html" data-page="sites"><span class="zl-emoji">🎥</span><span class="zl-text">7SNS 툴 (유튜브)</span><span class="zl-arrow">→</span></a></li>
+    <li><a href="guide.html" data-page="cardnews"><span class="zl-emoji">🎨</span><span class="zl-text">모집 홍보물 만드는 방법</span><span class="zl-arrow">→</span></a></li>
+    <li><a href="recruit_1_prepare.html" data-page="r1"><span class="zl-emoji">📝</span><span class="zl-text">모집 준비 (계정 만들기)</span><span class="zl-arrow">→</span></a></li>
+    <li><a href="recruit_2_grow.html" data-page="r2"><span class="zl-emoji">🌱</span><span class="zl-text">모집수익 계정 키우기</span><span class="zl-arrow">→</span></a></li>
+    <li><a href="recruit_3_promote.html" data-page="r3"><span class="zl-emoji">📢</span><span class="zl-text">모집수익 홍보 시작</span><span class="zl-arrow">→</span></a></li>
+  </ul>
+
+  <div class="zl-footer">MADE BY 제일라 · 💗</div>
+</aside>
+
+<div class="container">
+
+  <div class="hero">
+    <div class="tag">NEWKIND ZHEILA</div>
+    <h1>7SNS 툴 🎥</h1>
+    <div class="sub">유튜브 영상 제작 툴</div>
+    <div class="author">MADE BY 제일라</div>
+  </div>
+
+  <section>
+    <div class="chapter">COMING SOON</div>
+    <h2>유튜브 영상 제작 툴<br>개발 중에 있어요! 🛠</h2>
+    <div class="section-sub">조금만 기다려주세요 🌸</div>
+    <p>
+      <b>유튜브 영상 제작 툴</b>을 현재 개발하고 있어요!<br>
+      클릭 몇 번으로 <b>유튜브 영상</b>이 뚝딱 만들어질 수 있게<br>
+      열심히 준비 중이에요 💗
+    </p>
+    <div class="info-box">
+      <p>💡 출시되면 <b>가장 먼저 알려드릴게요</b>!</p>
+      <p>궁금한 점이 있으시면 <b>카톡으로 문의</b>해주세요 🌸</p>
+    </div>
+    <div class="warn-box">
+      <div class="title">오픈 알림 받기</div>
+      <p>
+        <b>"7SNS 툴 오픈 알림 부탁드려요"</b>라고 카톡 주시면<br>
+        출시 즉시 안내드릴게요!
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="logo">뉴카인드 제일라</div>
+    <div>© NEWKIND ZHEILA · Made with 💗</div>
+  </footer>
+</div>
+
+<script>
+(function() {
+  const ham = document.getElementById('zlHamburger');
+  const bar = document.getElementById('zlSidebar');
+  const ov = document.getElementById('zlOverlay');
+  function toggle() {
+    ham.classList.toggle('open');
+    bar.classList.toggle('open');
+    ov.classList.toggle('active');
+    document.body.style.overflow = bar.classList.contains('open') ? 'hidden' : '';
+  }
+  ham.addEventListener('click', toggle);
+  ov.addEventListener('click', toggle);
+  // 현재 페이지 활성 표시
+  const path = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.zl-nav a').forEach(a => {
+    if (a.getAttribute('href') === path) a.classList.add('active');
+  });
+})();
+</script>
+<script>
+(function() {
+  const API_URL = "https://newkind-zheila-production.up.railway.app/api/verify";
+  const KEY = "zl_access_token";
+  const lock = document.getElementById("zlLock");
+  const input = document.getElementById("zlLockInput");
+  const btn = document.getElementById("zlLockBtn");
+  const err = document.getElementById("zlLockErr");
+
+  // 이전에 받은 토큰이 있으면 서버에 확인
+  const savedToken = localStorage.getItem(KEY);
+  if (savedToken) {
+    fetch(API_URL + "/check?token=" + encodeURIComponent(savedToken))
+      .then(r => r.json())
+      .then(data => {
+        if (data.valid) {
+          lock.classList.add("hidden");
+          document.body.style.overflow = "";
+        } else {
+          localStorage.removeItem(KEY);
+          showLock();
+        }
+      })
+      .catch(() => showLock());
+  } else {
+    showLock();
+  }
+
+  function showLock() {
+    document.body.style.overflow = "hidden";
+    setTimeout(() => input.focus(), 300);
+  }
+
+  async function tryUnlock() {
+    const val = (input.value || "").trim();
+    if (!val) return;
+
+    btn.disabled = true;
+    btn.textContent = "확인 중...";
+    err.textContent = "";
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: val })
+      });
+      const data = await res.json();
+
+      if (data.success && data.token) {
+        localStorage.setItem(KEY, data.token);
+        lock.classList.add("hidden");
+        document.body.style.overflow = "";
+      } else {
+        err.textContent = data.message || "코드가 올바르지 않아요. 제일라님께 문의해주세요!";
+        input.value = "";
+        input.focus();
+      }
+    } catch (e) {
+      err.textContent = "서버 연결 실패. 잠시 후 다시 시도해주세요.";
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "입장하기";
+    }
+  }
+
+  btn.addEventListener("click", tryUnlock);
+  input.addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
+})();
+</script>
+</body>
+</html>
