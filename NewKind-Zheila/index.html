@@ -216,9 +216,118 @@
     text-align: center;
     letter-spacing: 2px;
   }
+
+  /* 락 오버레이 */
+  .zl-lock {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg, #fdf1ec 0%, #f8e1dc 50%, #f5d5d0 100%);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: 'Pretendard', -apple-system, 'Malgun Gothic', sans-serif;
+  }
+  .zl-lock.hidden { display: none; }
+  .zl-lock-card {
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    padding: 56px 44px 44px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 25px 60px rgba(180,120,110,0.25);
+    border: 1px solid rgba(255,255,255,0.8);
+    text-align: center;
+  }
+  .zl-lock-emoji { font-size: 54px; margin-bottom: 16px; }
+  .zl-lock-tag {
+    display: inline-block;
+    background: #c98b80; color: white;
+    font-size: 11px; font-weight: 700;
+    padding: 5px 14px; border-radius: 16px;
+    letter-spacing: 2px; margin-bottom: 18px;
+  }
+  .zl-lock h1 {
+    font-size: 24px;
+    color: #6b4b45;
+    font-weight: 900;
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+  .zl-lock p {
+    font-size: 14px;
+    color: #8a6058;
+    margin-bottom: 26px;
+    line-height: 1.7;
+  }
+  .zl-lock input {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 16px;
+    border: 2px solid #e8c8c0;
+    border-radius: 14px;
+    background: white;
+    color: #5c3e38;
+    text-align: center;
+    letter-spacing: 2px;
+    font-family: inherit;
+    font-weight: 700;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 14px;
+  }
+  .zl-lock input:focus { border-color: #c98b80; }
+  .zl-lock input::placeholder { color: #c4b0a8; font-weight: 500; letter-spacing: 1px; }
+  .zl-lock button {
+    width: 100%;
+    padding: 16px;
+    font-size: 15px;
+    font-weight: 800;
+    color: white;
+    background: #c98b80;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+  .zl-lock button:hover { background: #b87970; transform: translateY(-1px); }
+  .zl-lock .zl-err {
+    color: #c4564a;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    min-height: 18px;
+  }
+  .zl-lock .zl-footer-text {
+    margin-top: 22px;
+    font-size: 12px;
+    color: #9b7770;
+    letter-spacing: 2px;
+  }
+
 </style>
 </head>
 <body>
+<div class="zl-lock" id="zlLock">
+  <div class="zl-lock-card">
+    <div class="zl-lock-emoji">🔐</div>
+    <div class="zl-lock-tag">NEWKIND ZHEILA</div>
+    <h1>자료집 접속</h1>
+    <p>
+      이 자료집은 회원 전용이에요 🌸<br>
+      제일라님께 받으신 <b>접속 코드</b>를 입력해주세요.
+    </p>
+    <input type="password" id="zlLockInput" placeholder="접속 코드 입력" autocomplete="off">
+    <div class="zl-err" id="zlLockErr"></div>
+    <button type="button" id="zlLockBtn">입장하기</button>
+    <div class="zl-footer-text">MADE BY 제일라 · 💗</div>
+  </div>
+</div>
+
 
 <button class="zl-hamburger" id="zlHamburger" aria-label="메뉴 열기">
   <span></span><span></span><span></span>
@@ -306,6 +415,45 @@
   document.querySelectorAll('.zl-nav a').forEach(a => {
     if (a.getAttribute('href') === path) a.classList.add('active');
   });
+})();
+</script>
+
+
+<script>
+(function() {
+  const CODE = "zheila";
+  const KEY = "zl_access_ok";
+  const lock = document.getElementById("zlLock");
+  const input = document.getElementById("zlLockInput");
+  const btn = document.getElementById("zlLockBtn");
+  const err = document.getElementById("zlLockErr");
+
+  // 이미 인증됐으면 바로 통과
+  if (localStorage.getItem(KEY) === CODE) {
+    lock.classList.add("hidden");
+    document.body.style.overflow = "";
+    return;
+  }
+
+  // 락 활성화
+  document.body.style.overflow = "hidden";
+  setTimeout(() => input.focus(), 300);
+
+  function tryUnlock() {
+    const val = (input.value || "").trim().toLowerCase();
+    if (val === CODE.toLowerCase()) {
+      localStorage.setItem(KEY, CODE);
+      lock.classList.add("hidden");
+      document.body.style.overflow = "";
+      err.textContent = "";
+    } else {
+      err.textContent = "코드가 올바르지 않아요. 제일라님께 문의해주세요!";
+      input.value = "";
+      input.focus();
+    }
+  }
+  btn.addEventListener("click", tryUnlock);
+  input.addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
 })();
 </script>
 
