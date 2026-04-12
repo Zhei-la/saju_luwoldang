@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>뉴카인드 제일라 | 사주 상담 툴 🔮</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Pretendard', -apple-system, 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+    background: linear-gradient(180deg, #fdf1ec 0%, #f8e1dc 40%, #f5d5d0 100%);
+    color: #5c3e38;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  .hero {
+    text-align: center;
+    padding: 72px 28px 60px;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(12px);
+    border-radius: 32px;
+    margin-bottom: 36px;
+    box-shadow: 0 20px 60px rgba(180,120,110,0.18);
+    border: 1px solid rgba(255,255,255,0.7);
+  }
+  .hero .tag {
+    display: inline-block;
+    background: #c98b80; color: white;
+    font-size: 13px; font-weight: 700;
+    padding: 6px 16px; border-radius: 20px;
+    letter-spacing: 2px; margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: 38px; color: #6b4b45;
+    font-weight: 900; letter-spacing: -0.5px;
+    margin-bottom: 14px; line-height: 1.3;
+  }
+  .hero .sub { font-size: 17px; color: #8a6058; font-weight: 500; }
+  .hero .author {
+    margin-top: 28px; padding-top: 20px;
+    border-top: 1px dashed #e8c8c0;
+    font-size: 14px; color: #9b7770; letter-spacing: 3px;
+  }
+
+  .toc {
+    background: rgba(255,255,255,0.6);
+    border-radius: 24px; padding: 28px 32px;
+    margin-bottom: 40px;
+    border: 1px solid rgba(255,255,255,0.7);
+    box-shadow: 0 10px 30px rgba(180,120,110,0.1);
+  }
+  .toc h3 {
+    font-size: 18px; color: #8a6058;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toc h3::before { content: "📖"; }
+  .toc ol { list-style: none; counter-reset: toc; }
+  .toc ol li {
+    counter-increment: toc;
+    padding: 8px 0; padding-left: 32px; position: relative;
+    font-size: 15px; color: #6b4b45;
+  }
+  .toc ol li::before {
+    content: counter(toc, decimal-leading-zero);
+    position: absolute; left: 0; top: 8px;
+    font-weight: 800; color: #c98b80;
+    font-family: 'Georgia', serif;
+  }
+  .toc ol li a { color: inherit; text-decoration: none; }
+  .toc ol li a:hover { color: #c4564a; }
+
+  section {
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(10px);
+    border-radius: 28px;
+    padding: 44px 40px;
+    margin-bottom: 32px;
+    border: 1px solid rgba(255,255,255,0.7);
+    box-shadow: 0 15px 40px rgba(180,120,110,0.12);
+    scroll-margin-top: 20px;
+  }
+  section .chapter {
+    display: inline-block; font-size: 12px; font-weight: 800;
+    color: #c98b80; letter-spacing: 3px; margin-bottom: 8px;
+  }
+  section h2 {
+    font-size: 28px; color: #6b4b45;
+    font-weight: 900; margin-bottom: 8px; letter-spacing: -0.5px;
+  }
+  section .section-sub {
+    font-size: 15px; color: #8a6058;
+    padding-bottom: 24px; margin-bottom: 24px;
+    border-bottom: 2px solid #e8c8c0;
+  }
+  section p {
+    font-size: 15.5px; color: #5c3e38;
+    margin-bottom: 18px; line-height: 2;
+  }
+  section p:last-child { margin-bottom: 0; }
+  section p b { color: #c4564a; }
+  section h3 {
+    font-size: 20px; color: #6b4b45;
+    margin-top: 28px; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  section h3::before { content: "✔"; color: #c98b80; font-weight: 800; }
+
+  .info-box {
+    background: rgba(255, 243, 235, 0.75);
+    border-left: 5px solid #c98b80;
+    padding: 20px 26px; border-radius: 14px; margin: 16px 0;
+  }
+  .info-box p { margin-bottom: 10px; line-height: 1.85; }
+  .info-box p:last-child { margin-bottom: 0; }
+  .warn-box {
+    background: rgba(255, 243, 205, 0.7);
+    border-left: 5px solid #e8c76a;
+    padding: 20px 26px; border-radius: 14px; margin: 16px 0;
+  }
+  .warn-box .title {
+    font-weight: 800; color: #8a6e3a; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .warn-box .title::before { content: "⚠️"; }
+  .warn-box p { color: #8a6e3a; margin: 0; font-size: 14.5px; line-height: 1.85; }
+
+  .prompt-box {
+    background: #2d2d2d; color: #f0e5e0;
+    padding: 20px 24px; border-radius: 14px;
+    font-family: 'D2Coding', 'Courier New', monospace;
+    font-size: 13.5px; line-height: 1.8;
+    margin: 14px 0; white-space: pre-wrap; word-break: break-word;
+    border-left: 5px solid #c98b80;
+  }
+
+  .guide-img {
+    width: 100%; border-radius: 16px;
+    margin: 16px 0 8px;
+    box-shadow: 0 10px 30px rgba(180,120,110,0.15);
+    border: 1px solid rgba(255,255,255,0.8);
+    background: white; display: block;
+  }
+
+  .step {
+    background: rgba(255, 243, 235, 0.6);
+    border-radius: 16px;
+    padding: 20px 26px;
+    margin-bottom: 14px;
+    border-left: 5px solid #c98b80;
+  }
+  .step .step-num {
+    display: inline-block;
+    background: #c98b80;
+    color: white;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-weight: 800;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+  .step .step-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: #6b4b45;
+    margin-bottom: 8px;
+  }
+  .step .step-desc { font-size: 14.5px; color: #5c3e38; margin-left: 38px; line-height: 1.9; }
+  ul.check { list-style: none; margin: 10px 0; }
+  ul.check li {
+    padding: 8px 0 8px 28px;
+    position: relative;
+    font-size: 15px;
+    color: #5c3e38;
+  }
+  ul.check li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    color: #c98b80;
+    font-weight: 800;
+  }
+  ul.check li b { color: #c4564a; }
+  .guide-img-wrap {
+    position: relative;
+    display: block;
+    margin: 16px 0 8px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(180,120,110,0.15);
+    border: 1px solid rgba(255,255,255,0.8);
+  }
+  .guide-img-wrap img {
+    width: 100%;
+    display: block;
+    border-radius: 0;
+    margin: 0;
+    box-shadow: none;
+    border: none;
+  }
+  .guide-img-wrap::before,
+  .guide-img-wrap::after {
+    content: "뉴카인드 제일라";
+    position: absolute;
+    font-size: 32px;
+    font-weight: 800;
+    color: rgba(180, 100, 90, 0.18);
+    letter-spacing: 3px;
+    white-space: nowrap;
+    transform: rotate(-22deg);
+    pointer-events: none;
+    font-family: 'Pretendard', -apple-system, 'Malgun Gothic', sans-serif;
+  }
+  .guide-img-wrap::before { top: 18%; left: 15%; }
+  .guide-img-wrap::after { top: 62%; left: 45%; }
+
+
+  footer {
+    text-align: center; padding: 50px 20px 20px;
+    color: #9b7770; font-size: 13px;
+  }
+  footer .logo {
+    font-size: 16px; font-weight: 800;
+    color: #c98b80; letter-spacing: 4px; margin-bottom: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 20px 14px 60px; }
+    .hero { padding: 50px 20px 40px; }
+    .hero h1 { font-size: 28px; }
+    section { padding: 32px 22px; }
+    section h2 { font-size: 22px; }
+    .toc { padding: 22px 24px; }
+  }
+
+</style>
+</head>
+<body>
+
+
+
+<div class="container">
+
+  <div class="hero">
+    <div class="tag">NEWKIND ZHEILA</div>
+    <h1>제일라의<br>사주 상담 툴 🔮</h1>
+    <div class="sub">한 번 쓰면 절대 못 돌아가는 나만의 사주 비서 ✨</div>
+    <div class="author">MADE BY 제일라</div>
+  </div>
+
+  <section>
+    <div class="chapter">INTRO</div>
+    <h2>혹시 이런 적 있으세요?</h2>
+    <div class="section-sub">사주 상담 일 하면서 이런 고민...</div>
+    <p>
+      📌 고객 사주 하나 보려고 <b>만세력 돌리고 해석하고</b><br>
+      📌 후기 받아서 캡처하고 모아두기 귀찮고<br>
+      📌 상담 수·수익 계산하려면 엑셀 켜야 하고<br>
+      📌 스레드/인스타 홍보하려면 무료 사주 써줘야 하고...
+    </p>
+    <p>
+      이거 하나면 <b>다 끝나요</b>.<br>
+      제가 직접 쓰려고 만들었는데,<br>
+      쓰다 보니까 너무 좋아서 <b>같이 쓰실 분만 오픈</b>합니다 🌸
+    </p>
+    <div class="warn-box">
+      <div class="title">한정 오픈</div>
+      <p>
+        자세한 사용법과 기능은 <b>전부 공개 안 해요</b>.<br>
+        직접 써보셔야 알 수 있어요!<br>
+        <b>관심 있으시면 카톡 주세요!</b> 💗
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="chapter">FEATURES</div>
+    <h2>어떤 기능이 있어요?</h2>
+    <div class="section-sub">살짝만 보여드릴게요 👀</div>
+
+    <h3>📊 홈 대시보드</h3>
+    <p>
+      오늘·이번주·총 누적 <b>상담 수와 수익</b>을 자동으로 집계해줘요.<br>
+      브랜드 이름, 후기 링크까지 <b>한 곳에서 관리</b>!
+    </p>
+
+    <h3>🔮 사주 리포트</h3>
+    <p>
+      고객 생년월일만 입력하면 <b>40챕터 120페이지 PDF가 자동 생성</b>돼요.<br>
+      만세력 기반 정확 계산 + 챕터별 개별 재생성 가능.
+    </p>
+    <div class="info-box">
+      <p>💡 <b>120페이지짜리 사주 리포트</b>가 몇 초 만에 나와요!</p>
+    </div>
+
+    <h3>📜 개인 상담</h3>
+    <p>
+      12가지 분야 (종합/연애/직업/재물 등) 중 선택.<br>
+      글자 수 조절 가능, 결과 아래 채팅창에서 <b>추가 질문 이어가기</b>!<br>
+      이전 상담 <b>재사용</b>도 가능해요.
+    </p>
+
+    <h3>💬 AI 채팅</h3>
+    <p>
+      저장된 리포트로 <b>그 사람 사주를 기억</b>하며 이어서 답변해줘요.<br>
+      이전 대화 불러오기 가능!
+    </p>
+
+    <h3>🎁 무료 사주 (스레드 홍보용)</h3>
+    <p>
+      고객 댓글 <b>복붙만 하면</b> 생년월일 자동 파악.<br>
+      반말 + 줄바꿈으로 <b>SNS 톤에 딱</b>!<br>
+      홍보 문구 저장소에 링크+본문을 여러 개 저장해서 <b>답변 뒤에 자동 첨부</b>돼요.
+    </p>
+
+    <h3>⭐ 후기 관리</h3>
+    <p>
+      내 전용 후기 링크로 고객이 <b>별점+후기 남기면 자동 저장</b>.<br>
+      이름 중간 마스킹(제ㅇ라), 평균 별점·총 개수 집계까지.<br>
+      <b>캡처해서 홍보 자료로</b> 그대로 활용 가능!
+    </p>
+  </section>
+
+  <section>
+    <div class="chapter">WHY</div>
+    <h2>왜 이거 써야 해요?</h2>
+    <div class="section-sub">솔직한 후기 💗</div>
+
+    <p>
+      저도 처음엔 <b>수기로 다 했어요</b>.<br>
+      엑셀에 수익 적고, 후기 캡처 폴더에 모으고,<br>
+      사주 봐주려면 만세력 사이트 왔다 갔다 하고...
+    </p>
+    <p>
+      근데 이거 만들고 나서 <b>상담 시간이 반으로 줄었어요</b>.<br>
+      고객한테도 <b>120페이지 PDF 리포트</b> 주니까 만족도가 달라요.<br>
+      후기도 알아서 쌓이니까 홍보하기도 편하고요!
+    </p>
+
+    <div class="info-box">
+      <p>✨ <b>한 번 써보면 진짜 못 돌아가요</b>.</p>
+      <p>직접 체감하셔야 아는 편리함이에요!</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="chapter">CONTACT</div>
+    <h2>어떻게 신청해요?</h2>
+    <div class="section-sub">궁금하면 제일라에게!</div>
+
+    <p>
+      가격, 사용 방법, 세팅 가이드 등<br>
+      <b>자세한 건 카톡으로 문의</b>해주세요!
+    </p>
+    <p>
+      이 자료집 보신 분들께는<br>
+      <b>특별 혜택</b>도 준비되어 있답니다 💗
+    </p>
+
+    <div class="warn-box">
+      <div class="title">제일라에게 카톡주세요 🌸</div>
+      <p>
+        <b>"자료집 보고 사주 툴 문의드려요"</b>라고 남겨주시면<br>
+        자세하게 안내해드릴게요!
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="logo">뉴카인드 제일라</div>
+    <div>© NEWKIND ZHEILA · Made with 💗</div>
+  </footer>
+</div>
+
+
+
+</body>
+</html>
