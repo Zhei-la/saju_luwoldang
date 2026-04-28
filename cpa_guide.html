@@ -10,23 +10,6 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Pretendard',sans-serif;background:linear-gradient(135deg,#fdf1ec 0%,#f8e1dc 50%,#f5d5d0 100%);min-height:100vh;color:#5c3e38;line-height:1.7;-webkit-font-smoothing:antialiased}
   
-  /* 락 화면 */
-  .lock-screen{position:fixed;inset:0;background:linear-gradient(135deg,#fdf1ec 0%,#f8e1dc 50%,#f5d5d0 100%);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px}
-  .lock-card{background:rgba(255,250,248,0.92);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.8);border-radius:32px;padding:56px 44px;max-width:480px;width:100%;text-align:center;box-shadow:0 25px 70px rgba(196,86,74,0.12)}
-  .lock-icon{font-size:64px;margin-bottom:24px;display:block}
-  .lock-brand{display:inline-block;padding:8px 20px;background:#f5d5d0;color:#c4564a;font-size:11px;letter-spacing:3px;font-weight:700;border-radius:20px;margin-bottom:24px}
-  .lock-title{font-size:30px;font-weight:800;color:#5c3e38;margin-bottom:18px;letter-spacing:-0.5px}
-  .lock-desc{font-size:14px;color:#8a6f68;margin-bottom:32px;line-height:1.7}
-  .lock-desc b{color:#c4564a;font-weight:700}
-  .lock-input{width:100%;padding:18px 22px;font-size:15px;font-family:inherit;border:2px solid #f0c4bc;border-radius:50px;background:#fff;outline:none;color:#5c3e38;text-align:center;letter-spacing:1px;font-weight:500;transition:all .2s}
-  .lock-input::placeholder{color:#c4a8a3;font-weight:400;letter-spacing:1px}
-  .lock-input:focus{border-color:#c4564a;box-shadow:0 0 0 4px rgba(196,86,74,0.1)}
-  .lock-btn{margin-top:16px;width:100%;padding:18px;background:#b8746a;color:#fff;border:none;border-radius:50px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;box-shadow:0 6px 20px rgba(184,116,106,0.3)}
-  .lock-btn:hover{background:#a05f56;transform:translateY(-1px);box-shadow:0 8px 24px rgba(184,116,106,0.4)}
-  .lock-error{color:#c4564a;font-size:13px;margin-top:14px;font-weight:600;display:none}
-  .lock-foot{margin-top:28px;font-size:11px;color:#b09b96;letter-spacing:2px;font-weight:600}
-  .lock-foot::before{content:"";display:inline-block;width:30px;height:1px;background:#d8c4bf;vertical-align:middle;margin-right:12px}
-  .lock-foot::after{content:"";display:inline-block;width:30px;height:1px;background:#d8c4bf;vertical-align:middle;margin-left:12px}
   
   /* 레이아웃 */
   .wrap{display:flex;min-height:100vh}
@@ -125,24 +108,10 @@
 </head>
 <body>
 
-<!-- 락 화면 -->
-<div class="lock-screen" id="lockScreen">
-  <div class="lock-card">
-    <div class="lock-icon">🔒</div>
-    <div class="lock-brand">NEWKIND ZHEILA</div>
-    <div class="lock-title">자료집 접속</div>
-    <div class="lock-desc">이 자료집은 회원 전용이에요 🌸<br>제일라님께 받으신 <b>접속 코드</b>를 입력해주세요.</div>
-    <input type="text" class="lock-input" id="codeInput" placeholder="접속 코드 입력" maxlength="9" autocomplete="off">
-    <button class="lock-btn" onclick="verifyCode()">입장하기</button>
-    <div class="lock-error" id="errMsg">코드가 일치하지 않아요 🥲</div>
-    <div class="lock-foot">MADE BY 제일라 · 💗</div>
-  </div>
-</div>
-
 <!-- 워터마크 -->
 <div class="watermark"><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span><span>뉴카인드 제일라</span></div>
 
-<div class="wrap" id="mainWrap" style="display:none">
+<div class="wrap" id="mainWrap">
   
   <!-- 사이드바 -->
   <aside class="sidebar">
@@ -755,58 +724,27 @@
 </div>
 
 <script>
-  // 락 시스템
+  // 토큰 체크 - 코드 없으면 홈으로 리다이렉트
   const TOKEN_KEY = 'zheila_access_token';
-  const VERIFY_URL = '/api/verify';
   const CHECK_URL = '/api/verify/check';
   
-  async function checkToken(){
+  (async () => {
     const t = localStorage.getItem(TOKEN_KEY);
-    if(!t) return false;
-    try{
-      const r = await fetch(CHECK_URL, {
-        method:'GET',
-        headers:{'Authorization':'Bearer '+t}
-      });
-      return r.ok;
-    }catch(e){return false}
-  }
-  
-  async function verifyCode(){
-    const code = document.getElementById('codeInput').value.trim().toUpperCase();
-    const errEl = document.getElementById('errMsg');
-    if(!code){errEl.textContent='코드를 입력해주세요';errEl.style.display='block';return}
-    try{
-      const r = await fetch(VERIFY_URL, {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({code})
-      });
-      if(r.ok){
-        const d = await r.json();
-        localStorage.setItem(TOKEN_KEY, d.token);
-        document.getElementById('lockScreen').style.display='none';
-        document.getElementById('mainWrap').style.display='flex';
-      }else{
-        errEl.textContent='코드가 일치하지 않아요 🥲';
-        errEl.style.display='block';
-      }
-    }catch(e){
-      errEl.textContent='오류가 발생했어요. 다시 시도해주세요.';
-      errEl.style.display='block';
+    if (!t) { 
+      location.href = 'index.html'; 
+      return; 
     }
-  }
-  
-  document.getElementById('codeInput').addEventListener('keyup', e=>{
-    if(e.key==='Enter') verifyCode();
-  });
-  
-  // 페이지 로드 시 토큰 체크
-  (async()=>{
-    const ok = await checkToken();
-    if(ok){
-      document.getElementById('lockScreen').style.display='none';
-      document.getElementById('mainWrap').style.display='flex';
+    try {
+      const r = await fetch(CHECK_URL, {
+        method: 'GET',
+        headers: { 'Authorization': 'Bearer ' + t }
+      });
+      if (!r.ok) {
+        localStorage.removeItem(TOKEN_KEY);
+        location.href = 'index.html';
+      }
+    } catch (e) {
+      console.error('토큰 확인 실패:', e);
     }
   })();
 </script>
