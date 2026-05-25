@@ -1,6 +1,6 @@
 // ============================================================
-// 뉴카인드 제일라 자료집 - 접속 코드 검증 API
-// Railway의 newkind-zheila-production 프로젝트에 추가할 코드
+// 루월당 루월당 자료집 - 접속 코드 검증 API
+// Railway의 Luwoldang-Luwoldang-production 프로젝트에 추가할 코드
 // ============================================================
 
 // 📦 필요한 패키지 (이미 설치돼있다면 스킵)
@@ -17,7 +17,7 @@ const app = express();
 app.use(cors({
   origin: [
     'https://zhei-la.github.io',      // GitHub Pages 도메인
-    'https://zheila.github.io',        // 혹시 다른 계정명
+    'https://Luwoldang.github.io',        // 혹시 다른 계정명
     'http://localhost:3000',           // 로컬 테스트
     'http://localhost:5500',           // Live Server
     'null'                             // 파일 직접 열 때
@@ -38,7 +38,7 @@ app.use(express.static(__dirname));
 // 2️⃣ 토큰 생성 함수 (간단한 방식)
 // ============================================================
 function generateToken(code) {
-  const secret = process.env.TOKEN_SECRET || 'zheila-secret-2025';
+  const secret = process.env.TOKEN_SECRET || 'Luwoldang-secret-2025';
   return crypto
     .createHmac('sha256', secret)
     .update(code + Date.now().toString().slice(0, -5)) // 만료 버퍼
@@ -52,8 +52,8 @@ function validateToken(token) {
   if (!/^[a-f0-9]+$/.test(token)) return false;
 
   // 최근 30일 이내 발급된 토큰인지 확인 (매달 코드 바뀌면 자동 무효화)
-  const secret = process.env.TOKEN_SECRET || 'zheila-secret-2025';
-  const currentCode = process.env.ZHEILA_ACCESS_CODE || '';
+  const secret = process.env.TOKEN_SECRET || 'Luwoldang-secret-2025';
+  const currentCode = process.env.Luwoldang_ACCESS_CODE || '';
 
   // 오늘 포함 최근 35일 동안 유효한 토큰 생성 범위 체크
   for (let i = 0; i < 35; i++) {
@@ -73,7 +73,7 @@ function validateToken(token) {
 // ============================================================
 app.post('/api/verify', (req, res) => {
   const { code } = req.body;
-  const validCode = process.env.ZHEILA_ACCESS_CODE;
+  const validCode = process.env.Luwoldang_ACCESS_CODE;
 
   if (!validCode) {
     return res.status(500).json({
@@ -103,7 +103,7 @@ app.post('/api/verify', (req, res) => {
   console.log(`[자료집] ❌ 잘못된 코드: ${code} (${new Date().toISOString()})`);
   return res.status(401).json({
     success: false,
-    message: '코드가 올바르지 않아요. 제일라님께 문의해주세요!'
+    message: '코드가 올바르지 않아요. 루월당님께 문의해주세요!'
   });
 });
 
@@ -123,20 +123,20 @@ app.get('/api/verify/check', (req, res) => {
 // ============================================================
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`🌸 뉴카인드 제일라 자료집 서버 실행: http://localhost:${PORT}`);
-  console.log(`   접속 코드: ${process.env.ZHEILA_ACCESS_CODE ? '✅ 설정됨' : '❌ 미설정 (환경변수 ZHEILA_ACCESS_CODE 추가 필요)'}`);
+  console.log(`🌸 루월당 루월당 자료집 서버 실행: http://localhost:${PORT}`);
+  console.log(`   접속 코드: ${process.env.Luwoldang_ACCESS_CODE ? '✅ 설정됨' : '❌ 미설정 (환경변수 Luwoldang_ACCESS_CODE 추가 필요)'}`);
 });
 
 // ============================================================
 // 📝 Railway 환경변수 설정 방법
 // ============================================================
-// 1. Railway 대시보드 → newkind-zheila-production 프로젝트 선택
+// 1. Railway 대시보드 → Luwoldang-Luwoldang-production 프로젝트 선택
 // 2. Variables 탭 클릭
 // 3. 아래 환경변수 추가:
 //
-//    ZHEILA_ACCESS_CODE  = 매달 바꾸실 코드 (예: zheila1127)
+//    Luwoldang_ACCESS_CODE  = 매달 바꾸실 코드 (예: Luwoldang1127)
 //    TOKEN_SECRET        = 아무 문자열 (예: my-super-secret-2025)
 //
 // 4. Deploy 자동 재시작
-// 5. 매달 코드 바꿀 때는 ZHEILA_ACCESS_CODE만 수정하면 끝!
+// 5. 매달 코드 바꿀 때는 Luwoldang_ACCESS_CODE만 수정하면 끝!
 //    (기존에 접속했던 사람들은 자동 로그아웃됨)

@@ -1,7 +1,7 @@
 {
-  "name": "newkind-zheila",
+  "name": "Luwoldang-Luwoldang",
   "version": "1.0.0",
-  "description": "뉴카인드 제일라 자료집 접속 코드 검증 서버",
+  "description": "루월당 루월당 자료집 접속 코드 검증 서버",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
