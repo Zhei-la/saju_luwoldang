@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // 猷⑥썡??猷⑥썡???먮즺吏?- ?묒냽 肄붾뱶 寃利?API
 // Railway??Luwoldang-Luwoldang-production ?꾨줈?앺듃??異붽???肄붾뱶
 // ============================================================
@@ -132,7 +132,7 @@ app.get('/api/verify/check', (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`?뙵 猷⑥썡??猷⑥썡???먮즺吏??쒕쾭 ?ㅽ뻾: http://localhost:${PORT}`);
-  console.log(`   ?묒냽 肄붾뱶: ${process.env.Luwoldang_ACCESS_CODE ? '???ㅼ젙?? : '??誘몄꽕??(?섍꼍蹂??Luwoldang_ACCESS_CODE 異붽? ?꾩슂)'}`);
+  console.log('Access code loaded');
 });
 
 // ============================================================
